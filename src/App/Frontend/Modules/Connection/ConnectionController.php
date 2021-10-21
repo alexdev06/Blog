@@ -16,7 +16,7 @@ class ConnectionController extends BackController
     {
         $this->page->addVar('title', 'Connexion');
         $this->page->addVar('visitor', $this->app->visitor());
-        $this->page->addVar('secret', CaptchaManager::CAPTCHA_SECRET_SITE);
+        $this->page->addVar('secret', $_ENV['CAPTCHA_SECRET_SITE']);
 
         if ($request->postExists('login')) {
             // Captcha validation

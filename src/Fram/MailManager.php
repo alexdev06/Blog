@@ -6,13 +6,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class MailManager
 {
-    const HOST = 'smtp.ionos.fr';
-    const USER_NAME = 'contact@alexandremanteaux.fr';
-    const PASSWORD = '21051982Azer@;';
-    const HOST_EMAIL = 'contact@alexandremanteaux.fr';
-    const SMTP_AUT = true;
-    const PORT = 587;
-
     private $mail;
     private $email_address;
     private $email_subject;
@@ -23,13 +16,13 @@ class MailManager
         // Mailer initialisation and configuration
         $this->mail = new PHPMailer(true);
         $this->mail->isSMTP();                                        // Send using SMTP
-        $this->mail->Host       = self::HOST;                        // Set the SMTP server to send through
-        $this->mail->SMTPAuth   = self::SMTP_AUT;                   // Enable SMTP authentication
-        $this->mail->Username   = self::USER_NAME;                  // SMTP username
-        $this->mail->Password   = self::PASSWORD;                   // SMTP password
-        $this->mail->Port       = self::PORT;                        // TCP port to connect to
+        $this->mail->Host       = $_ENV['MAIL_HOST'];                        // Set the SMTP server to send through
+        $this->mail->SMTPAuth   = $_ENV['MAIL_SMTP_AUT'];                   // Enable SMTP authentication
+        $this->mail->Username   = $_ENV['MAIL_USER_NAME'];                  // SMTP username
+        $this->mail->Password   = $_ENV['MAIL_PASSWORD'];                   // SMTP password
+        $this->mail->Port       = $_ENV['MAIL_PORT'];                        // TCP port to connect to
         $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;      // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-        $this->mail->addAddress(self::HOST_EMAIL);
+        $this->mail->addAddress($_ENV['MAIL_HOST_EMAIL']);
         $this->mail->isHTML(true);
 
         $this->email_address = $email_address;
@@ -49,7 +42,7 @@ class MailManager
     public function sendConfirmationContactEmail()
     {
         $this->mail->addAddress($this->email_address);
-        $this->mail->setFrom('noreply@alexandremanteaux.fr');
+        $this->mail->setFrom($_ENV['MAIL_SET_FROM']);
         $this->mail->Subject = 'Demande de contact';
         $this->mail->Body    = 'Votre demande de contact a bien été prise en compte. Vous serez contacté dans les plus brefs délais';
         $this->mail->send();

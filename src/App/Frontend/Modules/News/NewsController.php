@@ -2,9 +2,10 @@
 
 namespace ADABlog\App\Frontend\Modules\News;
 
-use ADABlog\Fram\BackController;
-use ADABlog\Fram\HTTPRequest;
 use ADABlog\Entity\Comment;
+use ADABlog\Fram\HTTPRequest;
+use ADABlog\Fram\BackController;
+use ADABlog\Fram\CaptchaManager;
 
 class NewsController extends BackController
 {
@@ -56,21 +57,10 @@ class NewsController extends BackController
         $this->page->addVar('title', $news->title());
         $this->page->addVar('news', $news);
         $this->page->addVar('comments', $this->managers->getManagerOf('Comments')->getListPublishedOf($news->id()));
+        $this->page->addVar('secret', $_ENV['CAPTCHA_SECRET_SITE']);
 
         if ($request->postExists('pseudo')) {
-            // reCAPTCHA
-            $secret = "6LehGMAUAAAAAGT7FXQAvNN5APjP9d6mh7Qlp_rM";
-            $response = $_POST['g-recaptcha-response'];
-            $remoteip = $_SERVER['REMOTE_ADDR'];
-
-            $api_url = "https://www.google.com/recaptcha/api/siteverify?secret="
-                . $secret
-                . "&response=" . $response
-                . "&remoteip=" . $remoteip;
-
-            $decode = json_decode(file_get_contents($api_url), true);
-
-            if ($decode['success'] == true) {
+            if (true == CaptchaManager::captchaValidation()) {
                 $comment = new Comment([
                     'newsId' => $request->getData('id'),
                     'author' => $request->postData('pseudo'),

@@ -16,7 +16,7 @@ class HomeController extends BackController
     {
         $this->page->addVar('title', 'Accueil');
         $this->page->addVar('visitor', $this->app->visitor());
-        $this->page->addVar('secret', CaptchaManager::CAPTCHA_SECRET_SITE);
+        $this->page->addVar('secret', $_ENV['CAPTCHA_SECRET_SITE']);
 
         $charactersLength = $this->app->config()->get('characters_length');
         $manager = $this->managers->getManagerOf('News');
