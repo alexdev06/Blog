@@ -7,5 +7,5 @@ INSTALLATION DU SITE
 3. Importer le fichier blog.sql sur le serveur de base de données Mysql.
 4. Configurer les variables d'environnement de l'application:
    - Créer un fichier .env à la racine du projet ou renommer le fichier .env.example en .env
-   - Compléter les variables d'environnement avec leur valeur locales
+   - Compléter les variables d'environnement avec leurs valeurs locales
 5. Pour executer l’application, configurer le serveur HTTP pour le faire pointer sur le dossier /public
