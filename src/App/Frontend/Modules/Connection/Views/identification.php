@@ -1,29 +1,29 @@
 <section class="content-page">
     <h1 class="text-center text-uppercase titre-pages"><?= $title ?></h1>
     <div class="divider-custom divider">
-            <div class="divider-custom-line"></div>
-            <div class="divider-custom-icon">
-                <i class="fas fa-star"></i>
-            </div>
-            <div class="divider-custom-line"></div>
+        <div class="divider-custom-line"></div>
+        <div class="divider-custom-icon">
+            <i class="fas fa-star"></i>
+        </div>
+        <div class="divider-custom-line"></div>
     </div>
 
 
     <div class="container">
 
-    <?php
-    if ($visitor->hasFlash()) {
-        ?>
-        <div class="row">
-            <div class="col-lg-6 mx-auto my-4">
-                <p class="flash text-center"> <?= $visitor->getFlash(); ?> </p>
-            </div>
-        </div>
         <?php
-    }
-    ?>
+        if ($visitor->hasFlash()) {
+        ?>
+            <div class="row">
+                <div class="col-lg-6 mx-auto my-4">
+                    <p class="flash text-center"> <?= $visitor->getFlash(); ?> </p>
+                </div>
+            </div>
+        <?php
+        }
+        ?>
         <div class="row mt-4">
-            <div class="col-lg-10 mx-auto">  
+            <div class="col-lg-10 mx-auto">
                 <p class="intro text-center">Seuls les utilisateurs ayant été validés en tant que membre ont accès à l'espace d'administration.</p>
             </div>
         </div>
@@ -47,7 +47,7 @@
                     </div>
                     <br />
                     <div class="form-group">
-                        <div class="g-recaptcha" data-sitekey="6LehGMAUAAAAAAu-G1BzjkHTyWssiMYxtuL--4bm"></div>
+                        <div class="g-recaptcha" data-sitekey="<?= $secret ?>"></div>
                     </div>
                     <br />
                     <div id="success"></div>

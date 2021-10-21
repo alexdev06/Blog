@@ -64,15 +64,15 @@
                 <h4>Programmation</h4>
                 <ul style="list-style-type:none;  padding-left: 0;">
                     <li>HTML/CSS</li>
-                    <li>Bootstrap</li>
-                    <li>WordPress</li>
-                    <li>Javascript</li>
-                    <li>Jquery</li>
                     <li>PHP</li>
                     <li>SQL/MySQL</li>
                     <li>Symfony</li>
                     <li>API Rest</li>
                     <li>Test Unitaires</li>
+                    <li>Bootstrap</li>
+                    <li>Javascript</li>
+                    <li>Jquery</li>
+                    <li>WordPress</li>
                 </ul>
             </div>
             <div class="col-lg-6 col-sm-12">
@@ -82,7 +82,7 @@
                     <li>Méthodologie agile / séquentielle</li>
                     <li>Conception cahier des charges</li>
                     <li>Diagrammes UML</li>
-                    <li>Composer</li>
+                    <li>Wireframing / Balsamiq</li>
                 </ul>
             </div>
         </div>
@@ -91,7 +91,6 @@
         </div>
     </div>
 </section>
-
 
 <section class="page-section portfolio bg-light" id="portfolio">
     <div class="container">
@@ -172,6 +171,7 @@
     </div>
 </section>
 
+
 <!-- Contact Section -->
 <section class="page-section" id="contact">
     <div class="container">
@@ -243,13 +243,19 @@
                     </div>
                     <br />
                     <div class="form-group">
-                        <div class="g-recaptcha" data-sitekey="6LehGMAUAAAAAAu-G1BzjkHTyWssiMYxtuL--4bm"></div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="consent" id="consent" required>
+                            <label class="form-check-label" for="consent">J'autorise ce site à conserver mes données personnelles transmises via ce formulaire. Aucune exploitation commerciale ne sera faite des données conservées.</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="g-recaptcha" data-sitekey=<?= $secret ?>></div>
                     </div>
                     <br />
                     <div id="success"></div>
                     <div class="row">
                         <div class="form-group col-6">
-                            <button type="submit" class="btn btn-primary btn-lg" id="sendMessageButton" onclick="return confirm('Valider votre choix?');">Envoyer</button>
+                            <button type="submit" class="btn btn-primary btn-lg" id="sendMessageButton">Envoyer</button>
                         </div>
                         <div class="form-group col-6 ">
                             <button type="reset" class="btn btn-primary btn-lg" id="sendMessageButton">Réinitialiser</button>

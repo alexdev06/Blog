@@ -1,5 +1,7 @@
 <?php
+
 namespace ADABlog\App\Frontend\Modules\News;
+
 use ADABlog\Fram\BackController;
 use ADABlog\Fram\HTTPRequest;
 use ADABlog\Entity\Comment;
@@ -7,13 +9,16 @@ use ADABlog\Entity\Comment;
 class NewsController extends BackController
 {
 
+    /**
+     * Display all news list
+     */
     public function executeNewsPages(HTTPRequest $request)
     {
         $charactersLength = $this->app->config()->get('characters_length');
         $this->page->addvar('title', 'Les News');
         $this->page->addVar('visitor', $this->app->visitor());
 
-        $this->page->addVar('page',$request->getData('page'));
+        $this->page->addVar('page', $request->getData('page'));
 
         $manager = $this->managers->getManagerOf('News');
 
@@ -36,9 +41,11 @@ class NewsController extends BackController
 
         $this->page->addVar('totalPages', $totalPages);
         $this->page->addVar('listeNews', $listeNews);
-
     }
 
+    /**
+     *  Display an unique news
+     */
     public function executeShow(HTTPRequest $request)
     {
         $news = $this->managers->getManagerOf('News')->getUnique($request->getData('id'));
@@ -55,21 +62,21 @@ class NewsController extends BackController
             $secret = "6LehGMAUAAAAAGT7FXQAvNN5APjP9d6mh7Qlp_rM";
             $response = $_POST['g-recaptcha-response'];
             $remoteip = $_SERVER['REMOTE_ADDR'];
-            
-            $api_url = "https://www.google.com/recaptcha/api/siteverify?secret=" 
+
+            $api_url = "https://www.google.com/recaptcha/api/siteverify?secret="
                 . $secret
                 . "&response=" . $response
-                . "&remoteip=" . $remoteip ;
-            
+                . "&remoteip=" . $remoteip;
+
             $decode = json_decode(file_get_contents($api_url), true);
-        
+
             if ($decode['success'] == true) {
                 $comment = new Comment([
                     'newsId' => $request->getData('id'),
                     'author' => $request->postData('pseudo'),
                     'content' => $request->postData('message')
                 ]);
-            
+
                 if ($comment->isValid()) {
                     $this->managers->getManagerOf('Comments')->save($comment);
                     $this->app->visitor()->setFlash('Le commentaire a été envoyé.');
@@ -77,10 +84,7 @@ class NewsController extends BackController
                     $this->page->addVar('erreurs', $comment->erreurs());
                 }
                 $this->page->addVar('comment', $comment);
-                
             }
         }
-
     }
-
 }

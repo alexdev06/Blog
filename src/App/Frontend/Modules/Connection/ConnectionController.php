@@ -1,33 +1,26 @@
 <?php
+
 namespace ADABlog\App\Frontend\Modules\Connection;
 
 use \ADABlog\Fram\BackController;
+use ADABlog\Fram\CaptchaManager;
 use \ADABlog\Fram\HTTPRequest;
 
 
 class ConnectionController extends BackController
 {
+    /**
+     * Display and handle login form
+     */
     public function executeIdentification(HTTPRequest $request)
     {
         $this->page->addVar('title', 'Connexion');
         $this->page->addVar('visitor', $this->app->visitor());
+        $this->page->addVar('secret', CaptchaManager::CAPTCHA_SECRET_SITE);
 
         if ($request->postExists('login')) {
-            // reCAPTCHA
-            
-            $secret = "6LehGMAUAAAAAGT7FXQAvNN5APjP9d6mh7Qlp_rM";
-            $response = $_POST['g-recaptcha-response'];
-            $remoteip = $_SERVER['REMOTE_ADDR'];
-            
-            $api_url = "https://www.google.com/recaptcha/api/siteverify?secret=" 
-                . $secret
-                . "&response=" . $response
-                . "&remoteip=" . $remoteip ;
-            
-            $decode = json_decode(file_get_contents($api_url), true);
-        
-            if ($decode['success'] == true) {
-
+            // Captcha validation
+            if (true == CaptchaManager::captchaValidation()) {
                 $login = $request->postData('login');
                 $password = $request->postData('password');
 
@@ -35,7 +28,7 @@ class ConnectionController extends BackController
                 $user = $manager->get($login);
 
                 if (!isset($user) || empty($user)) {
-                  $this->app->visitor()->setFlash('Pseudo incorrect');
+                    $this->app->visitor()->setFlash('Pseudo incorrect');
                 } else {
                     if (password_verify($password, $user->password())) {
                         $this->app->visitor()->setLogin($user->username());
@@ -51,7 +44,6 @@ class ConnectionController extends BackController
                         }
                     } else {
                         $this->app->visitor()->setFlash('Mot de passe incorrect');
-                        
                     }
                 }
             }
