@@ -1,4 +1,5 @@
 <?php
+
 namespace ADABlog\App\Frontend\Modules\Home;
 
 use ADABlog\Fram\BackController;
@@ -14,6 +15,18 @@ class HomeController extends BackController
         $this->page->addVar('title', 'Accueil');
         $this->page->addVar('visitor', $this->app->visitor());
 
+        $charactersLength = $this->app->config()->get('characters_length');
+        $manager = $this->managers->getManagerOf('News');
+        $lastNews = $manager->getlastNews();
+
+        foreach ($lastNews as $news) {
+            if (strlen($news->content()) > $charactersLength) {
+                $outset = substr($news->content(), 0, $charactersLength);
+                $outset = substr($outset, 0, strrpos($outset, ' ')) . '...';
+                $news->setContent($outset);
+            }
+        }
+        $this->page->addVar('lastNews', $lastNews);
         // Check for empty fields
         if (null !== $request->postData('name')) {
 
@@ -21,16 +34,16 @@ class HomeController extends BackController
             $secret = "6LehGMAUAAAAAGT7FXQAvNN5APjP9d6mh7Qlp_rM";
             $response = $_POST['g-recaptcha-response'];
             $remoteip = $_SERVER['REMOTE_ADDR'];
-            
-            $api_url = "https://www.google.com/recaptcha/api/siteverify?secret=" 
+
+            $api_url = "https://www.google.com/recaptcha/api/siteverify?secret="
                 . $secret
                 . "&response=" . $response
-                . "&remoteip=" . $remoteip ;
-            
+                . "&remoteip=" . $remoteip;
+
             $decode = json_decode(file_get_contents($api_url), true);
-        
+
             if ($decode['success'] == true) {
-                if (empty($request->postData('name')) || empty($request->postData('lastName')) || empty($request->postData('email')) || empty($request->postData('message')) ) {
+                if (empty($request->postData('name')) || empty($request->postData('lastName')) || empty($request->postData('email')) || empty($request->postData('message'))) {
                     $this->app->visitor()->setFlash('Tous les champs ne sont pas remplis!');
                 } else {
                     if (!preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $request->postData('email'))) {
@@ -46,11 +59,11 @@ class HomeController extends BackController
                         $lastName = strip_tags(htmlspecialchars($request->postData('lastName')));
                         $email_address = strip_tags(htmlspecialchars($request->postData('email')));
                         $message = strip_tags(htmlspecialchars($request->postData('message')));
-                            
+
                         // PHPMailer configuration
-                        
+
                         $email_subject = "Demande de contact sur le blog par :  $name $lastName";
-                        $email_body = "Vous avez reçu un nouveau message de contact en provenance de votre site.\n\n"."Les détails:\n\nPrénom: $name\n\nEmail: $email_address\n\nMessage:\n$message";
+                        $email_body = "Vous avez reçu un nouveau message de contact en provenance de votre site.\n\n" . "Les détails:\n\nPrénom: $name\n\nEmail: $email_address\n\nMessage:\n$message";
 
                         $mail = new PHPMailer(true);
 
@@ -82,5 +95,4 @@ class HomeController extends BackController
             }
         }
     }
-
 }

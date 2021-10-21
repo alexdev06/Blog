@@ -1,4 +1,5 @@
 <?php
+
 namespace ADABlog\Model;
 
 use \ADABlog\Entity\News;
@@ -10,7 +11,7 @@ class NewsManagerPDO extends NewsManager
         $sql = 'SELECT id, author, title, lead, content, date_create AS dateCreate, date_update AS dateUpdate, user_username AS userUsername FROM news ORDER BY date_create DESC';
 
         if ($start != -1 || $limit != -1) {
-            $sql .= ' LIMIT '.(int) $limit.' OFFSET '.(int) $start;
+            $sql .= ' LIMIT ' . (int) $limit . ' OFFSET ' . (int) $start;
         }
 
         $request = $this->dao->query($sql);
@@ -28,13 +29,32 @@ class NewsManagerPDO extends NewsManager
         return $listNews;
     }
 
+    public function getlastNews()
+    {
+        $sql = 'SELECT id, author, title, lead, content, date_create AS dateCreate, date_update AS dateUpdate, user_username AS userUsername FROM news ORDER BY date_create DESC LIMIT 3';
+
+        $request = $this->dao->query($sql);
+        $request->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\ADABlog\Entity\News');
+
+        $lastNews = $request->fetchAll();
+
+        foreach ($lastNews as $News) {
+            $News->setDateCreate(new \DateTime($News->dateCreate()));
+            $News->setDateUpdate(new \DateTime($News->dateUpdate()));
+        }
+
+        $request->closeCursor();
+
+        return $lastNews;
+    }
+
     public function getListPagined($page)
     {
         $limite = 5;
         $debut = ($page - 1) * $limite;
         $sql = 'SELECT id , author, title, lead, content, date_create AS dateCreate, date_update AS dateUpdate, user_username AS userUsername FROM news ORDER BY date_create DESC LIMIT :limit OFFSET :debut';
         $requete = $this->dao->prepare($sql);
-        
+
         $requete->bindValue(':limit', $limite, \PDO::PARAM_INT);
         $requete->bindValue(':debut', $debut, \PDO::PARAM_INT);
         $requete->execute();
@@ -51,7 +71,6 @@ class NewsManagerPDO extends NewsManager
         $requete->closeCursor();
 
         return $listeNews;
-
     }
 
     public function getUnique($id)
@@ -99,7 +118,7 @@ class NewsManagerPDO extends NewsManager
         $sql = 'UPDATE news SET author = :author, title = :title, lead = :lead, content = :content, date_update = NOW(), user_username = :user_username WHERE id = :id';
         $request = $this->dao->prepare($sql);
 
-        $request->bindValue(':title' , $news->title());
+        $request->bindValue(':title', $news->title());
         $request->bindValue(':author', $news->author());
         $request->bindValue(':content', $news->content());
         $request->bindValue(':lead', $news->lead());
@@ -113,6 +132,4 @@ class NewsManagerPDO extends NewsManager
     {
         $this->dao->exec('DELETE FROM news WHERE id = ' . (int) $id);
     }
-
-
 }

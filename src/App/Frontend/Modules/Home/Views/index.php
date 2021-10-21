@@ -23,6 +23,34 @@
     </div>
 </header>
 
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center py-5">
+                <h2>Les 3 dernières news publiées</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-10 mx-auto my-4">
+                    <?php
+                    foreach ($lastNews as $news) {
+                    ?>
+
+                        <h3><a href="news-<?= $news['id'] ?>"><?= htmlspecialchars($news['title']) ?></a></h3>
+                        <p style="text-align: left;" class="intro-news">Par <em><?= $news['author'] ?></em>, Modifiée le <?= $news['dateUpdate']->format('d/m/Y à H\hi') ?></p>
+
+                        <p class="lead"><?= htmlspecialchars($news['lead']) ?></p>
+
+                        <p class="news-content"><?= nl2br(htmlspecialchars($news['content'])) ?> <a href="news-<?= $news['id'] ?>">lire la suite</a></p>
+                        <hr class="my-5" />
+                    <?php
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+</section>
+
 <section style="background-color: #2c3e50; color: white; width: auto; padding-top: 75px; padding-bottom: 75px">
     <div class="container">
         <div class="row">
@@ -59,10 +87,11 @@
             </div>
         </div>
         <div class="row">
-            <h4 class="col-lg-12 text-center"><a href="../files/cv_alexandre_manteaux">Télécharger mon CV</a></h4>
+            <h4 class="col-lg-12 text-center"><a href="../files/alexandre_manteaux_cv.pdf">Télécharger mon CV</a></h4>
         </div>
     </div>
 </section>
+
 
 <section class="page-section portfolio bg-light" id="portfolio">
     <div class="container">
