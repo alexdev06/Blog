@@ -11,17 +11,17 @@
 	<title>Alexandre Manteaux - Blog professionnel</title>
 
 	<!-- Custom fonts for this theme -->
-	<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+	<link href="css/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
 	<!-- DataTables CSS -->
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/dataTables.responsive.css">
-	
+
 	<!-- Theme CSS -->
 	<link href="css/freelancer.min.css" rel="stylesheet">
-	<link href="css/backend_custom.css" rel="stylesheet" >
+	<link href="css/backend_custom.css" rel="stylesheet">
 
 </head>
 
@@ -43,19 +43,19 @@
 					<li class="nav-item mx-0 mx-lg-1">
 						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/admin-comments">Commentaires</a>
 					</li>
-					<?php 
+					<?php
 					if ($this->app->visitor()->isAdministrator() == true) {
-						?>
+					?>
 						<li class="nav-item mx-0 mx-lg-1">
 							<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/admin-users">Utilisateurs</a>
 						</li>
-						<?php
+					<?php
 					}
 					?>
 					<li class="nav-item mx-0 mx-lg-1">
 						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/admin-disconnect">Déconnexion</a>
 					</li>
-     
+
 
 				</ul>
 			</div>
@@ -110,11 +110,11 @@
 
 
 	<!-- Bootstrap core JavaScript -->
-	<script src="vendor/jquery/jquery.min.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="js/jquery/jquery.min.js"></script>
+	<script src="js/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 	<!-- Plugin JavaScript -->
-	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+	<script src="js/jquery-easing/jquery.easing.min.js"></script>
 
 	<!-- Contact Form JavaScript -->
 	<script src="js/jqBootstrapValidation.js"></script>
@@ -130,13 +130,13 @@
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/1.10.20/sorting/datetime-moment.js"></script>
 
 	<script>
-        $(document).ready(function() {
-			$.fn.dataTable.moment( 'DD/MM/YYYY HH[h]mm' );
-            $('#usetTable').DataTable({
+		$(document).ready(function() {
+			$.fn.dataTable.moment('DD/MM/YYYY HH[h]mm');
+			$('#usetTable').DataTable({
 				responsive: true
 			});
-        } );
-    </script>
+		});
+	</script>
 </body>
 
 </html>
