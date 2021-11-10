@@ -78,6 +78,15 @@ Veillez à bien valider vos tickets pour vous assurer que ceux-ci couvrent bien 
 
 L’écriture de ces tickets vous permettra de vous accorder sur un vocabulaire commun. Il est fortement apprécié qu’ils soient écrits en anglais !
 
+### Livrables
+
+* Les instructions pour installer le projet (dans un fichier README à la racine du projet)
+* Les schémas UML (au format PNG ou JPG dans un dossier nommé “diagrammes” à la racine du projet)
+  * diagrammes de cas d’utilisation
+  * diagramme de classes
+  * diagrammes de séquence
+* Les issues sur le repository GitHub que vous aurez créé
+* Un lien vers la dernière analyse SymfonyInsight ou Codacy (ou vers le projet public sur la plateforme)
 
 
 ## INSTALLATION DU SITE
